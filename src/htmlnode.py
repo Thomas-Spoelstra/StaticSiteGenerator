@@ -24,4 +24,24 @@ class HTMLNode():
             result += " " + key + "=" + quote + value + quote
         return result
         
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props=None):
+        self.tag = tag
+        self.value = value
+        self.props = props
+        super().__init__(tag, value, props)
+
+    def to_html(self):
+        if self.value == None:
+            raise ValueError()
         
+        if self.tag == None:
+            return self.value
+        
+        else:
+            props_html = ""
+            if self.props != None:
+                for prop in self.props:
+                    props_html += f' {prop}="{self.props[prop]}"'
+            
+            return "<" + self.tag + props_html + ">" + self.value + "<" + self.tag + "/>"
